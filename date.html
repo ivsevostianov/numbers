@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Date Information</title>
+  <link rel="stylesheet" href="./css/output.css" />
+</head>
+<body class="bg-black text-white flex flex-col items-center justify-center min-h-screen bg-cover bg-no-repeat bg-center" 
+      style="background-image: url('./src/imgs/star.png');">
+
+  <!-- Home Button -->
+  <div style="position: absolute; top: 20px; left: 20px;">
+    <a href="index.html" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">Home</a>
+  </div>
+
+  <div class="text-center bg-black bg-opacity-80 p-8 rounded-md">
+    <h1 class="text-2xl mb-2">Discover the Meaning of a Number</h1>
+    <p class="text-lg mb-4">Enter a number to find out its historical significance</p>
+    <div class="flex gap-2 justify-center items-center mb-4">
+      <input id="number" type="number" placeholder="" class="w-32 p-2 bg-gray-800 text-white border border-gray-600 rounded focus:outline-none focus:border-blue-500">
+      <button id="fetchNumberFact" class="bg-purple-700 hover:bg-purple-800 rounded px-4 py-2 text-white">Find!</button>
+    </div>
+    <div id="date-fact" class="mt-6 text-lg"></div>
+  </div>
+  <script src="./src/js/script.js"></script>
+</body>
+</html>

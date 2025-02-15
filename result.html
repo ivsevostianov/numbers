@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Number Fact Result</title>
+  <link rel="stylesheet" href="./css/output.css" />
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen bg-black text-white bg-cover bg-no-repeat bg-top" 
+      style="background-image: url('./src/imgs/star.png');">
+
+  <!-- Home Button -->
+  <div style="position: absolute; top: 20px; left: 20px;">
+    <a href="index.html" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">Home</a>
+  </div>
+
+  <div class="content max-w-lg mx-auto bg-black bg-opacity-80 p-8 rounded-md text-center">
+    <div class="text-5xl mb-4">
+      <span class="number text-purple-500 inline-block" id="number"></span>
+      <span class="is-text inline-block text-white">is...</span>
+    </div>
+    <p class="text-2xl mb-6" id="number-fact"></p>
+    <div class="flex gap-2 justify-center items-center mb-6">
+      <input id="new-number" type="number" placeholder="" class="w-32 p-2 bg-gray-800 text-white border border-gray-600 rounded focus:outline-none focus:border-blue-500">
+      <button id="fetchNewFact" class="bg-purple-700 hover:bg-purple-800 rounded px-4 py-2 text-white">Another One!</button>
+    </div>
+  </div>
+  <script src="./src/js/script.js"></script>
+</body>
+</html>
