@@ -1,5 +1,5 @@
 const CONFIG = {
-    API_BASE_URL: 'https://cors-anywhere.herokuapp.com/http://numbersapi.com',
+    API_BASE_URL: 'https://api.allorigins.win/raw?url=http://numbersapi.com',
     ELEMENTS: {
       number: 'number',
       numberFact: 'number-fact',
@@ -10,30 +10,33 @@ const CONFIG = {
   
   class NumbersApiService {
     static getFact(number) {
-      return fetch(`${CONFIG.API_BASE_URL}/${number}/trivia`)
+      const url = `${CONFIG.API_BASE_URL}/${number}/trivia`;
+      return fetch(url)
         .then(response => {
           if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error(`Network response was not ok: ${response.status}`);
           }
           return response.text();
         });
     }
   
     static getRandomFact() {
-      return fetch(`${CONFIG.API_BASE_URL}/random/trivia`)
+      const url = `${CONFIG.API_BASE_URL}/random/trivia`;
+      return fetch(url)
         .then(response => {
           if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error(`Network response was not ok: ${response.status}`);
           }
           return response.text();
         });
     }
   
     static getDateFact(month, day) {
-      return fetch(`${CONFIG.API_BASE_URL}/${month}/${day}/date`)
+      const url = `${CONFIG.API_BASE_URL}/${month}/${day}/date`;
+      return fetch(url)
         .then(response => {
           if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error(`Network response was not ok: ${response.status}`);
           }
           return response.text();
         });
