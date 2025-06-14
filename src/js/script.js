@@ -1,5 +1,5 @@
 const CONFIG = {
-    API_BASE_URL: 'http://numbersapi.com',
+    API_BASE_URL: 'https://cors-anywhere.herokuapp.com/http://numbersapi.com',
     ELEMENTS: {
       number: 'number',
       numberFact: 'number-fact',
