@@ -10,10 +10,6 @@ A simple web application that displays interesting facts about numbers using the
 - Clean and responsive UI with dark theme
 - Background starfield animation
 
-## Live Demo
-
-Visit the live demo at: https://ivsevostianov.github.io/numbers/
-
 ## Technologies Used
 
 - Vanilla JavaScript
