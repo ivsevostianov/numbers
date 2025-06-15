@@ -107,18 +107,18 @@ const CONFIG = {
     }
   
     static handleRandomFact() {
-      UIHandler.showLoading(CONFIG.ELEMENTS.numberFact);
+      UIHandler.showLoading('number-fact');
       NumbersApiService.getRandomFact()
         .then((fact) => {
           const numberMatch = fact.match(/\d+/);
           const number = numberMatch ? numberMatch[0] : 'Unknown';
   
-          UIHandler.updateElement(CONFIG.ELEMENTS.number, number);
-          UIHandler.updateElement(CONFIG.ELEMENTS.numberFact, fact);
+          UIHandler.updateElement('number', number);
+          UIHandler.updateElement('number-fact', fact);
         })
         .catch((err) => {
           console.error(err);
-          UIHandler.showError(CONFIG.ELEMENTS.numberFact);
+          UIHandler.showError('number-fact');
         });
     }
   
