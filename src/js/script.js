@@ -1,5 +1,9 @@
 const CONFIG = {
-    API_BASE_URL: 'https://api.allorigins.win/raw?url=http://numbersapi.com',
+    PROXY_URLS: [
+      'https://api.allorigins.win/raw?url=http://numbersapi.com',
+      'https://cors-anywhere.herokuapp.com/http://numbersapi.com',
+      'https://api.codetabs.com/v1/proxy?quest=http://numbersapi.com'
+    ],
     ELEMENTS: {
       number: 'number',
       numberFact: 'number-fact',
@@ -9,37 +13,44 @@ const CONFIG = {
   };
   
   class NumbersApiService {
-    static getFact(number) {
-      const url = `${CONFIG.API_BASE_URL}/${number}/trivia`;
-      return fetch(url)
-        .then(response => {
+    static async fetchWithFallback(endpoint) {
+      let lastError;
+      
+      for (let i = 0; i < CONFIG.PROXY_URLS.length; i++) {
+        try {
+          const url = `${CONFIG.PROXY_URLS[i]}/${endpoint}`;
+          console.log(`Trying proxy ${i + 1}: ${CONFIG.PROXY_URLS[i]}`);
+          
+          const response = await fetch(url);
           if (!response.ok) {
-            throw new Error(`Network response was not ok: ${response.status}`);
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
           }
-          return response.text();
-        });
+          
+          const text = await response.text();
+          console.log(`Success with proxy ${i + 1}`);
+          return text;
+        } catch (error) {
+          console.warn(`Proxy ${i + 1} failed:`, error.message);
+          lastError = error;
+          
+          // If it's the last proxy, throw the error
+          if (i === CONFIG.PROXY_URLS.length - 1) {
+            throw new Error(`All proxies failed. Last error: ${lastError.message}`);
+          }
+        }
+      }
+    }
+
+    static getFact(number) {
+      return this.fetchWithFallback(`${number}/trivia`);
     }
   
     static getRandomFact() {
-      const url = `${CONFIG.API_BASE_URL}/random/trivia`;
-      return fetch(url)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error(`Network response was not ok: ${response.status}`);
-          }
-          return response.text();
-        });
+      return this.fetchWithFallback('random/trivia');
     }
   
     static getDateFact(month, day) {
-      const url = `${CONFIG.API_BASE_URL}/${month}/${day}/date`;
-      return fetch(url)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error(`Network response was not ok: ${response.status}`);
-          }
-          return response.text();
-        });
+      return this.fetchWithFallback(`${month}/${day}/date`);
     }
   }
   
@@ -156,17 +167,10 @@ const CONFIG = {
           }
         });
   
-        this.setupButton('randomBtn', () => {
-          window.location.href = 'random.html';
-        });
+
   
         this.setupButton('dateBtn', () => {
           window.location.href = 'date.html';
-        });
-      } 
-      else if (currentPath.includes('random.html')) {
-        this.setupButton('fetchRandomFact', () => {
-          PageController.handleRandomFact();
         });
       }
       else if (currentPath.includes('result.html')) {
@@ -217,9 +221,7 @@ const CONFIG = {
   
     const currentPath = window.location.pathname;
     
-    if (currentPath.includes('random.html')) {
-      PageController.handleRandomFact();
-    } else if (currentPath.includes('result.html')) {
+    if (currentPath.includes('result.html')) {
       const params = new URLSearchParams(window.location.search);
       const number = params.get('number');
       
