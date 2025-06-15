@@ -195,11 +195,24 @@ const CONFIG = {
       const button = document.getElementById(id);
       if (button) {
         button.addEventListener('click', callback);
+        console.log(`Event listener added to button: ${id}`);
+      } else {
+        console.warn(`Button with id '${id}' not found`);
+        // Try again after a short delay
+        setTimeout(() => {
+          const retryButton = document.getElementById(id);
+          if (retryButton) {
+            retryButton.addEventListener('click', callback);
+            console.log(`Event listener added to button (retry): ${id}`);
+          }
+        }, 100);
       }
     }
   }
   
-  document.addEventListener('DOMContentLoaded', () => {
+  // Initialize when DOM is ready
+  function initializeApp() {
+    console.log('Initializing app...');
     EventHandler.setupEventListeners();
   
     const currentPath = window.location.pathname;
@@ -216,6 +229,22 @@ const CONFIG = {
         UIHandler.updateElement(CONFIG.ELEMENTS.number, 'Error');
         UIHandler.updateElement(CONFIG.ELEMENTS.numberFact, 'No number provided.');
       }
+    }
+  }
+
+  // Try multiple initialization methods to ensure it works
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeApp);
+  } else {
+    // DOM is already loaded
+    initializeApp();
+  }
+  
+  // Fallback initialization
+  window.addEventListener('load', () => {
+    if (!document.getElementById('fetchRandomFact')?.onclick) {
+      console.log('Fallback initialization...');
+      initializeApp();
     }
   });
   
